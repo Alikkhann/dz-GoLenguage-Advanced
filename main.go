@@ -7,30 +7,36 @@ import (
 )
 
 func main() {
-	ch := make(chan int)
+	chRand := make(chan int)
+	chPow := make(chan int)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go randNumbers(ch, &wg)
-
+	go randNumbers(chRand, &wg)
 
 	wg.Add(1)
-	go powNumbers(ch, &wg)
+	go powNumbers(chRand, chPow, &wg)
+	
+	for res := range chPow {
+		fmt.Println(res)
+	}
 	
 	wg.Wait()
-
-
 }
-func randNumbers(ch chan int, wg *sync.WaitGroup) {
+
+
+func randNumbers(chRand chan int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	for i := 0; i < 10; i++ {
-		ch <- rand.Intn(100)
+		chRand <- rand.Intn(100)
 	}
-	close(ch)
+	close(chRand)
 }
 
-func powNumbers(ch chan int, wg *sync.WaitGroup)  {
+
+func powNumbers(chRand chan int, chPow chan int, wg *sync.WaitGroup)  {
 	defer wg.Done()
-	for v := range ch {
-		fmt.Println(v * v)
+	for v := range chRand {
+		chPow <- v * v
 	}
+	close(chPow)
 }
