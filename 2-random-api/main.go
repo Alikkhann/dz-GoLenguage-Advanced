@@ -1,4 +1,4 @@
-package randomapi
+package main
 
 import (
 	"log"
@@ -10,7 +10,7 @@ import (
 
 func randHeaders(w http.ResponseWriter, r *http.Request) {
 	rand.Seed(time.Now().UnixNano())
-	res := rand.Intn(7)
+	res := rand.Intn(6)
 	w.Write([]byte(strconv.Itoa(res)))
 }
 
