@@ -8,7 +8,7 @@ import (
 )
 
 func randHeaders(w http.ResponseWriter, r *http.Request) {
-	res := rand.IntN(6)
+	res := rand.IntN(6) + 1
 	w.Write([]byte(strconv.Itoa(res)))
 }
 
