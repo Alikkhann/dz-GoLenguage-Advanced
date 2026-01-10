@@ -2,15 +2,13 @@ package main
 
 import (
 	"log"
-	"math/rand"
+	"math/rand/v2"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 func randHeaders(w http.ResponseWriter, r *http.Request) {
-	rand.Seed(time.Now().UnixNano())
-	res := rand.Intn(6)
+	res := rand.IntN(6)
 	w.Write([]byte(strconv.Itoa(res)))
 }
 
