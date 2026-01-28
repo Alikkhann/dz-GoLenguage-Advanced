@@ -15,7 +15,7 @@ func DeleteHash(repo repository.Repo, fileData *[]payload.DataRequest, hash stri
     break
   }
   }
-   if found == true {
+   if found { //if found == true
    fmt.Println("Подтверждение прошло Успешно")
    err := repo.WriteFile(fileData)
    if err != nil {
