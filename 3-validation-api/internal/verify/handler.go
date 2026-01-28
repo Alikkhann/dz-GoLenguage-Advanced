@@ -55,12 +55,12 @@ func (g *VerifyHandler) GetHandl(w http.ResponseWriter, r *http.Request) {
 		resp.Json(w, err , 400)
 		return 
 	}
-  err = delhash.DeleteHash(g.Repo, &fileData, hash)
+  found, err := delhash.DeleteHash(g.Repo, &fileData, hash)
 	if err != nil {
 		resp.Json(w, err , 400)
 		return
 	}
-	resp.Json(w, "true", 200)
+	resp.Json(w, found, 200)
 	}
 
 

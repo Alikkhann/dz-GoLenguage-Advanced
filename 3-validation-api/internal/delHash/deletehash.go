@@ -6,7 +6,7 @@ import (
     "go/project-3/internal/repository"
 )
 
-func DeleteHash(repo repository.Repo, fileData *[]payload.DataRequest, hash string) error{
+func DeleteHash(repo repository.Repo, fileData *[]payload.DataRequest, hash string) (bool, error) {
   found := false
   for i, h := range *fileData {
   if hash == h.Hash {
@@ -19,8 +19,8 @@ func DeleteHash(repo repository.Repo, fileData *[]payload.DataRequest, hash stri
    fmt.Println("Подтверждение прошло Успешно")
    err := repo.WriteFile(fileData)
    if err != nil {
-      return err
+      return found, err
       }
    }
-   return nil
+   return found, nil
 }
