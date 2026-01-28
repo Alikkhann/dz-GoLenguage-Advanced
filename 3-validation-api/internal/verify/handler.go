@@ -38,7 +38,11 @@ func (p *VerifyHandler) PostHandl(w http.ResponseWriter, r *http.Request) {
         Hash: hash,
     }
     //чтение
-    p.Repo.Add(JsonStr)
+    err = p.Repo.Add(JsonStr)
+    if err != nil {
+	  resp.Json(w, err , 400)
+	  return 
+	}
     //создание конфигурации email для отправки письма
     err = emailer.MailerData(JsonStr)
     if err != nil {
