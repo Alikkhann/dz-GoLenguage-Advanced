@@ -1,14 +1,14 @@
 package product
 
-import "gorm.io/gorm"
+import (
+	"github.com/lib/pq"
+	"gorm.io/gorm"
+)
 
 type Product struct {
   gorm.Model
   Name        string
   Description string
-  // Images      pq.StringArray
+  Images      pq.StringArray 
 }
 
-func NewProduct() {
-	
-}

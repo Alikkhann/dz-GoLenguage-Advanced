@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"4-project/configs"
