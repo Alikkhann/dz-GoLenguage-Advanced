@@ -104,6 +104,7 @@ func (handler *ProductHandler) Delete() http.HandlerFunc{
 		err = handler.ProductRepository.Delete(uint(id))
 		if err != nil {
 			resp.Json(w, err.Error(), http.StatusInternalServerError)
+			return 
 		}
 		resp.Json(w, nil, 200)
 	}
