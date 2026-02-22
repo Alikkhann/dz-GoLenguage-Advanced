@@ -1,13 +1,21 @@
-package migrations
+package main
 
 import (
-	"4-project/configs"
+	"os"
+	"gorm.io/gorm"
+	"gorm.io/driver/postgres"
+	"github.com/joho/godotenv"
 	"4-project/internal/product"
-	"4-project/pkg"
 )
 
 func main() {
-	config := configs.Config{}
-	db := pkg.NewDb(&config)
-	db.AutoMigrate(product.Product{})
+	err := godotenv.Load(".env")
+	if err != nil {
+		panic(err)
+	}
+	db, err := gorm.Open(postgres.Open(os.Getenv("DSN")), (&gorm.Config{}))
+	if err != nil {
+		panic(err)
+	}
+	db.AutoMigrate(&product.Product{})
 }

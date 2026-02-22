@@ -1,8 +1,8 @@
 package req
 
 import (
-	"encoding/json"
 	"io"
+	"encoding/json"
 )
 
 func Decode[T any](body io.ReadCloser) (T, error) { //декодируем из байт в структуру Json

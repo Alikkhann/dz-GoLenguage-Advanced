@@ -1,10 +1,9 @@
-package pkg
+package db
 
 import (
-	"4-project/configs"
-
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"4-project/configs"
+	"gorm.io/driver/postgres"
 )
 
 type Db struct {

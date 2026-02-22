@@ -1,9 +1,8 @@
 package configs
 
 import (
-	"fmt"
 	"os"
-
+	"fmt"
 	"github.com/joho/godotenv"
 )
 

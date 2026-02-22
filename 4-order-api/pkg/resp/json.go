@@ -1,8 +1,8 @@
 package resp
 
 import (
-	"encoding/json"
 	"net/http"
+	"encoding/json"
 )
 
 func Json(w http.ResponseWriter, data any, StatusCode int) {

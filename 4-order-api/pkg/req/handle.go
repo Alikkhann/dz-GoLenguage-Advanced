@@ -1,8 +1,8 @@
 package req
 
 import (
-	"4-project/pkg/resp"
 	"net/http"
+	"4-project/pkg/resp"
 )
 
 
@@ -15,7 +15,7 @@ func HandleBody[T any](w http.ResponseWriter, r *http.Request) (*T, error) {
 	err = IsValid(body)
 	if err != nil {
 		resp.Json(w, err.Error(), 400)
+		return nil, err
 	}
 	return &body, err
-	
 }

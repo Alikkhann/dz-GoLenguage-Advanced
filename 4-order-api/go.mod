@@ -6,6 +6,7 @@ toolchain go1.24.13
 
 require (
 	github.com/go-playground/validator/v10 v10.30.1
+	github.com/gorilla/mux v1.8.1
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.11.1
 	gorm.io/driver/postgres v1.6.0
