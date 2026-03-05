@@ -1,13 +1,15 @@
 package main
 
 import (
+	"4-project/configs"
+	"4-project/internal/product"
+	"4-project/pkg/db"
+	"4-project/pkg/middleware"
 	"fmt"
 	"log"
 	"net/http"
-	"4-project/pkg/db"
-	"4-project/configs"
+
 	"github.com/gorilla/mux"
-	"4-project/internal/product"
 )
 
 func main() {
@@ -25,7 +27,7 @@ func main() {
 	
 	server := http.Server{
 		Addr: ":8081",
-		Handler: mux,
+		Handler: middleware.Logger(mux),
 	}
 	fmt.Println("Сервер запущен на порту 8081")
 	log.Fatal(server.ListenAndServe())
