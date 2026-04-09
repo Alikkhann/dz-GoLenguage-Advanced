@@ -1,6 +1,8 @@
 package authbyphone
 
 import (
+	"5-project/configs"
+	"5-project/pkg/middleware"
 	"5-project/pkg/req"
 	"5-project/pkg/resp"
 	"net/http"
@@ -10,6 +12,7 @@ import (
 
 type AuthByPhoneHandlerDesp struct {
 	*ServiceAuthByPhone
+	*configs.Config
 }
 
 type AuthByPhoneHandler struct {
@@ -20,7 +23,7 @@ func NewHandlerAuthByPhone(mux *mux.Router, desp *AuthByPhoneHandlerDesp) {
 	handler := AuthByPhoneHandler{
 		ServiceAuthByPhone: desp.ServiceAuthByPhone,
 	}
-	mux.HandleFunc("/authbyphone", handler.Auth()).Methods("POST")
+	mux.Handle("/authbyphone", middleware.Auth(handler.Auth(), desp.Config))
 	mux.HandleFunc("/verifyByCode", handler.VerifyCode()).Methods("GET")
 }
 

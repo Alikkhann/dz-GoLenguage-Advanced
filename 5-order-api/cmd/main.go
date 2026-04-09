@@ -4,7 +4,6 @@ import (
 	"5-project/configs"
 	"5-project/internal/authByPhone"
 	"5-project/pkg/db"
-	"5-project/pkg/middleware"
 	"fmt"
 	"log"
 	"net/http"
@@ -29,17 +28,18 @@ func main() {
 	//HANDLER
 	authbyphone.NewHandlerAuthByPhone(mux, &authbyphone.AuthByPhoneHandlerDesp{
 		ServiceAuthByPhone: service,
+		Config: config,
 	})
 
 	//MIDDLEWARE
-	stack := middleware.Chain(
-		middleware.Auth,
-	)
+	// stack := middleware.Chain(
+	// 	middleware.Auth,
+	// )
 
 
 	server := http.Server{
 		Addr:    ":8081",
-		Handler: stack(mux),
+		Handler: mux,
 	}
 
 	fmt.Println("Сервер запущен на порту 8081")

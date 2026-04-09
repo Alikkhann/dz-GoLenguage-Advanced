@@ -59,7 +59,9 @@ func (repo *ServiceAuthByPhone) VerifyByCode(sessionId string, code int) (string
 	if user == nil || user.Code != code {
 		return "", errors.New(ErrInvalidData)
 	}
-	token, err := jwt.NewJWT(repo.Config.Auth.Secret).Create(sessionId)
+	token, err := jwt.NewJWT(repo.Config.Auth.Secret).Create(&jwt.JWTData{
+		Phone: user.Phone,
+	})
 	if err != nil {
 		return "", err
 	}
