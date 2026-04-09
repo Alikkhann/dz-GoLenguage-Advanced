@@ -11,10 +11,12 @@ import (
 func Auth(next http.Handler, config *configs.Config) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		authHandler := r.Header.Get("Authorization")
-		token := strings.Trim(authHandler, "Bearer")
+		token := strings.TrimPrefix(authHandler, "Bearer")
 		isValid, data := jwt.NewJWT(config.Auth.Secret).Parse(token)
+		if isValid != false {
 		fmt.Println(isValid)
 		fmt.Println(data)
+		}
 		next.ServeHTTP(w, r)
 	})
 }
