@@ -27,7 +27,7 @@ func (repo *AuthByPhoneRepo) Create(user *AuthByPhone) error {
 func (repo *AuthByPhoneRepo) FindByPhone(number string) (*AuthByPhone, error) {
 	var user AuthByPhone
 	result := repo.AuthRepo.DB.First(&user, "phone = ?", number)
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) { // // Если ошибка запись не найдена, возвращаем nil
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) { // Если ошибка запись не найдена, возвращаем nil
 		return nil, nil
 	}
 	if result.Error != nil {

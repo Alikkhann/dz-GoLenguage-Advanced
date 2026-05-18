@@ -7,8 +7,6 @@ import (
 	"errors"
 )
 
-// import "5-project/pkg/resp"
-
 type ServiceAuthByPhone struct {
 	Config *configs.Config 
 	Repo *AuthByPhoneRepo

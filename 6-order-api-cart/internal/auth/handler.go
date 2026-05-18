@@ -2,7 +2,6 @@ package auth
 
 import (
 	"6-project/configs"
-	"6-project/pkg/middleware"
 	"6-project/pkg/req"
 	"6-project/pkg/resp"
 	"net/http"
@@ -22,8 +21,8 @@ func NewHandlerAuthByPhone(mux *mux.Router, desp *AuthByPhoneHandlerDesp) {
 	handler := AuthByPhoneHandler{
 		ServiceAuthByPhone: desp.ServiceAuthByPhone,
 	}
-	mux.Handle("/authbyphone", middleware.IsAuthed(handler.Auth(), desp.Config))
-	mux.HandleFunc("/verifyByCode", handler.VerifyCode()).Methods("GET")
+	mux.HandleFunc("/authbyphone", handler.Auth())
+	mux.HandleFunc("/verifyByCode", handler.VerifyCode()).Methods("POST")
 }
 
 func (handler *AuthByPhoneHandler) Auth() http.HandlerFunc {

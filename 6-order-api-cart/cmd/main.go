@@ -9,13 +9,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
 	"github.com/gorilla/mux"
 )
+func DB() (*db.DB, *configs.Config) {
+	conf := configs.LoadConfig()
+	db := db.NewDb(conf)
+	return db, conf
+}
 
-func main() {
-	config := configs.LoadConfig()
-	db := db.NewDb(config)
+func App(db *db.DB, conf *configs.Config) http.Handler {
 	mux := mux.NewRouter()
 
 	//REPOSITORY
@@ -24,7 +26,7 @@ func main() {
 	orderRepository := order.NewOrderRepository(db)
 
 	//SERVICE
-	serviceAuth := auth.NewServiceAuthByPhone(config, authRepository)
+	serviceAuth := auth.NewServiceAuthByPhone(conf, authRepository)
 	serviceOrder := order.NewServiceOrder(&order.OrderServiceDesp{
 		OrderRepository:   orderRepository,
 		AuthByPhoneRepo:   authRepository,
@@ -34,14 +36,14 @@ func main() {
 	//HANDLER
 	auth.NewHandlerAuthByPhone(mux, &auth.AuthByPhoneHandlerDesp{
 		ServiceAuthByPhone: serviceAuth,
-		Config:             config,
+		Config:             conf,
 	})
 	product.NewProductHandler(mux, &product.ProductHandlerDesp{
 		ProductRepository: productRepository,
 	})
 
 	order.NewHandlerOrder(mux, &order.OrderHandlerDesp{
-		Config: config,
+		Config: conf,
 		OrderService:    serviceOrder,
 	})
 
@@ -49,9 +51,15 @@ func main() {
 	// stack := middleware.Chain(
 	// 	middleware.Auth,
 	// )
+	return mux
+}
+
+func main() {
+	db, conf := DB()
+	app := App(db, conf)
 	server := http.Server{
 		Addr:    ":8081",
-		Handler: mux,
+		Handler: app,
 	}
 	fmt.Println("Сервер запущен на порту 8081")
 	log.Fatal(server.ListenAndServe())
